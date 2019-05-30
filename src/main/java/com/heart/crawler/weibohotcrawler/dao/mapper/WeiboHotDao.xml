@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heart.crawler.weibohotcrawler.dao.WeiboHotDao">
+    <resultMap id="BaseResultMap" type="com.heart.crawler.weibohotcrawler.entity.WeiboHot">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="rank" jdbcType="VARCHAR" property="rank"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
+        <result column="hot_num" jdbcType="VARCHAR" property="hotNum"/>
+        <result column="channel" jdbcType="VARCHAR" property="channel"/>
+        <result column="crawler_date" jdbcType="TIMESTAMP" property="crawlerDate"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, rank, title, link_url, hot_num, channel, crawler_date
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from weibo_hot
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from weibo_hot
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from weibo_hot
+        where id = #{id,jdbcType=INTEGER}
+      </delete>
+
+    <insert id="insert" parameterType="com.heart.crawler.weibohotcrawler.entity.WeiboHot">
+        insert into weibo_hot (id, rank, title,
+          link_url, hot_num, channel,
+          crawler_date)
+        values (#{id,jdbcType=INTEGER}, #{rank,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+          #{linkUrl,jdbcType=VARCHAR}, #{hotNum,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR},
+          #{crawlerDate,jdbcType=TIMESTAMP})
+     </insert>
+
+    <insert id="insertSelective" parameterType="com.heart.crawler.weibohotcrawler.entity.WeiboHot">
+        insert into weibo_hot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="rank != null">
+                rank,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="linkUrl != null">
+                link_url,
+            </if>
+            <if test="hotNum != null">
+                hot_num,
+            </if>
+            <if test="channel != null">
+                channel,
+            </if>
+            <if test="crawlerDate != null">
+                crawler_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="rank != null">
+                #{rank,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="hotNum != null">
+                #{hotNum,jdbcType=VARCHAR},
+            </if>
+            <if test="channel != null">
+                #{channel,jdbcType=VARCHAR},
+            </if>
+            <if test="crawlerDate != null">
+                #{crawlerDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.heart.crawler.weibohotcrawler.entity.WeiboHot">
+        update weibo_hot
+        <set>
+            <if test="rank != null">
+                rank = #{rank,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                link_url = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="hotNum != null">
+                hot_num = #{hotNum,jdbcType=VARCHAR},
+            </if>
+            <if test="channel != null">
+                channel = #{channel,jdbcType=VARCHAR},
+            </if>
+            <if test="crawlerDate != null">
+                crawler_date = #{crawlerDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.heart.crawler.weibohotcrawler.entity.WeiboHot">
+        update weibo_hot
+        set rank = #{rank,jdbcType=VARCHAR},
+          title = #{title,jdbcType=VARCHAR},
+          link_url = #{linkUrl,jdbcType=VARCHAR},
+          hot_num = #{hotNum,jdbcType=VARCHAR},
+          channel = #{channel,jdbcType=VARCHAR},
+          crawler_date = #{crawlerDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+     </update>
+</mapper>

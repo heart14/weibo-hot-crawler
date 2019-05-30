@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>定时任务管理页面</title>
+    <!-- Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+
+    <!-- jQuery文件 -->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+
+    <!-- Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script>
+        function getQuartzJob() {
+            $.get("/weibo/getQuartzJob", function (data) {
+                var inner = "<tbody>";
+                for (var i = 0; i < data.length; i++) {
+                    var job = data[i];
+                    var quartzJobJson = JSON.stringify(job);
+                    var quartzJobObject = JSON.parse(quartzJobJson);
+                    inner = inner
+                        + "<tr><td>" + quartzJobObject.jobId
+                        + "</td><td>" + quartzJobObject.jobName
+                        + "</td><td>" + quartzJobObject.methodName
+                        + "</td><td>" + quartzJobObject.beanName
+                        + "</td><td>" + quartzJobObject.cronExpression
+                        + "</td><td>" + quartzJobObject.jobStatus
+                        + "</td><td>" + quartzJobObject.description
+                        + "</td></tr>";
+                }
+                inner = inner + "</tbody>";
+                $("#quartzjobtable").append(inner);
+                console.log("↓↓↓↓↓ getQuartzJob ↓↓↓↓↓");
+                console.log(data);
+            });
+
+        }
+
+        function addQuartzJob(jobId) {
+            $.get("/weibo/addQuartzJob", {"jobId": jobId}, function (data) {
+                console.log("↓↓↓↓↓ addQuartzJob ↓↓↓↓↓");
+                console.log(data);
+            });
+        }
+
+        function startQuartzJob(jobId) {
+            $.get("/weibo/startQuartzJob", {"jobId": jobId}, function (data) {
+                console.log("↓↓↓↓↓ startQuartzJob ↓↓↓↓↓");
+                console.log(data);
+            });
+        }
+
+    </script>
+</head>
+<body onload="getQuartzJob()">
+
+<div class="container">
+
+    <button class="btn btn-primary" onclick="addQuartzJob(1)">新增</button>
+
+    <button class="btn btn-success" type="submit">移除</button>
+
+    <button class="btn btn-info" onclick="startQuartzJob(2)">启动</button>
+
+    <button class="btn btn-warning" type="submit">停止</button>
+
+    <br>
+
+    <table class="table table-bordered table-striped" id="quartzjobtable">
+
+        <thead>
+        <tr>
+            <td>序号</td>
+            <td>任务名</td>
+            <td>方法名</td>
+            <td>全类名</td>
+            <td>Cron表达式</td>
+            <td>状态</td>
+            <td>描述</td>
+        </tr>
+        </thead>
+
+    </table>
+
+</div>
+
+</body>
+</html>
