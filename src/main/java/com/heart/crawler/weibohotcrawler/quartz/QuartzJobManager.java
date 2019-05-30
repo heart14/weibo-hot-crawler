@@ -19,7 +19,7 @@ public class QuartzJobManager {
     public void addJob(QuartzJob job) throws SchedulerException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         //通过类名获取实体类，即要执行的定时任务的类
         Class<?> clazz = Class.forName(job.getBeanName());
-        Job jobEntity = (Job)clazz.newInstance();
+        Job jobEntity = (Job) clazz.newInstance();
         //通过实体类和任务名创建 JobDetail
         JobDetail jobDetail = newJob(jobEntity.getClass())
                 .withIdentity(job.getJobName()).build();
@@ -30,11 +30,12 @@ public class QuartzJobManager {
                 .withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExpression()))
                 .build();
         //执行定时任务
-        scheduler.scheduleJob(jobDetail,cronTrigger);
+        scheduler.scheduleJob(jobDetail, cronTrigger);
     }
 
     /**
      * 更新job cron表达式
+     *
      * @param quartzJob
      * @throws SchedulerException
      */
@@ -49,6 +50,7 @@ public class QuartzJobManager {
 
     /**
      * 删除一个job
+     *
      * @param quartzJob
      * @throws SchedulerException
      */
@@ -59,6 +61,7 @@ public class QuartzJobManager {
 
     /**
      * 恢复一个job
+     *
      * @param quartzJob
      * @throws SchedulerException
      */
@@ -69,6 +72,7 @@ public class QuartzJobManager {
 
     /**
      * 立即执行job
+     *
      * @param quartzJob
      * @throws SchedulerException
      */
@@ -79,6 +83,7 @@ public class QuartzJobManager {
 
     /**
      * 暂停一个job
+     *
      * @param quartzJob
      * @throws SchedulerException
      */

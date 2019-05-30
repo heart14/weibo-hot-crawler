@@ -32,10 +32,10 @@ public class QuartzConfiguration {
     @Bean(name = "scheduler")
     public Scheduler scheduler(QuartzJobFactory quartzJobFactory) throws Exception {
 
-        SchedulerFactoryBean factoryBean=new SchedulerFactoryBean();
+        SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
         factoryBean.setJobFactory(quartzJobFactory);
         factoryBean.afterPropertiesSet();
-        Scheduler scheduler=factoryBean.getScheduler();
+        Scheduler scheduler = factoryBean.getScheduler();
         scheduler.start();
         return scheduler;
     }

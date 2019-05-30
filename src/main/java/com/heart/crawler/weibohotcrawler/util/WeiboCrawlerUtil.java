@@ -1,6 +1,5 @@
 package com.heart.crawler.weibohotcrawler.util;
 
-import com.heart.crawler.weibohotcrawler.entity.BingWallpaper;
 import com.heart.crawler.weibohotcrawler.entity.WeiboHot;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +15,11 @@ import java.util.List;
 
 public class WeiboCrawlerUtil {
 
+    /**
+     * 获取指定URL页面内容 weibo
+     *
+     * @return
+     */
     public static List<WeiboHot> weiboHotCrawler() {
 
         try {
@@ -61,53 +65,5 @@ public class WeiboCrawlerUtil {
         }
         return null;
     }
-
-    public static List<BingWallpaper> bingWallpaperCrawler(int pageNum) {
-
-        try {
-            Date download_date = new Date();
-            List<BingWallpaper> bingWallpapers = new ArrayList<>();
-            for (int i = 1; i <= pageNum; i++) {
-                String url = "https://bing.ioliu.cn/?p=" + pageNum;
-                if (i == 1) {
-                    url = "https://bing.ioliu.cn/";
-                }
-                Document doc = Jsoup.parse(new URL(url), 10000);
-                Elements item = doc.getElementsByClass("item");
-                for (Element element : item) {
-                    //访问地址
-                    Elements mark = element.getElementsByClass("mark");
-                    String image_url = mark.attr("href");
-                    //下载地址
-
-                    //标题
-                    Elements h3 = element.getElementsByTag("h3");
-                    String title = h3.text();
-                    //位置
-                    Elements location = element.getElementsByClass("location");
-                    String imglocation = location.text();
-                    //发布日期
-                    Elements calendar = element.getElementsByClass("calendar");
-                    String release_date = calendar.text();
-                    //下载日期
-
-                    BingWallpaper bingWallpaper = new BingWallpaper();
-                    bingWallpaper.setTitle(title);
-                    bingWallpaper.setLocation(imglocation);
-                    bingWallpaper.setImageUrl("https://bing.ioliu.cn" + image_url);
-                    bingWallpaper.setDownloadUrl("https://bing.ioliu.cn" + image_url.replace("=home_5", "=download"));
-                    bingWallpaper.setReleaseDate(release_date);
-                    bingWallpaper.setCreateDate(download_date);
-
-                    bingWallpapers.add(bingWallpaper);
-                }
-            }
-            return bingWallpapers;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
 }

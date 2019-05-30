@@ -11,7 +11,7 @@ public class FileDownloadUtil {
     public static void batchDownload(List<String> list) {
         System.out.println("开始下载");
         for (String url : list) {
-            File photo = new File("C:/Users/jayhe/Pictures/BingWallpaper/" + url.substring(29, url.indexOf("?")) + ".jpg");
+            File photo = new File("C:/Users/jayhe/Pictures/" + url.substring(29, url.indexOf("?")) + ".jpg");
             if (photo.exists()) {
                 continue;
             }

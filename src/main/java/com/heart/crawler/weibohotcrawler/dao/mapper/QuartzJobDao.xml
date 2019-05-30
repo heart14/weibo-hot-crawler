@@ -1,158 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.heart.crawler.weibohotcrawler.dao.QuartzJobDao">
-  <resultMap id="BaseResultMap" type="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
-    <id column="job_id" jdbcType="INTEGER" property="jobId" />
-    <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression" />
-    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
-    <result column="is_concurrent" jdbcType="VARCHAR" property="isConcurrent" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="bean_name" jdbcType="VARCHAR" property="beanName" />
-    <result column="trigger_name" jdbcType="VARCHAR" property="triggerName" />
-    <result column="job_status" jdbcType="VARCHAR" property="jobStatus" />
-    <result column="spring_bean" jdbcType="VARCHAR" property="springBean" />
-    <result column="job_name" jdbcType="VARCHAR" property="jobName" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    job_id, cron_expression, method_name, is_concurrent, description, bean_name, trigger_name, 
-    job_status, spring_bean, job_name
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from quartz_job
-    where job_id = #{jobId,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from quartz_job
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from quartz_job
-    where job_id = #{jobId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
-    insert into quartz_job (job_id, cron_expression, method_name, 
-      is_concurrent, description, bean_name, 
-      trigger_name, job_status, spring_bean, 
-      job_name)
-    values (#{jobId,jdbcType=INTEGER}, #{cronExpression,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, 
-      #{isConcurrent,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{beanName,jdbcType=VARCHAR}, 
-      #{triggerName,jdbcType=VARCHAR}, #{jobStatus,jdbcType=VARCHAR}, #{springBean,jdbcType=VARCHAR}, 
-      #{jobName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
-    insert into quartz_job
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="jobId != null">
-        job_id,
-      </if>
-      <if test="cronExpression != null">
-        cron_expression,
-      </if>
-      <if test="methodName != null">
-        method_name,
-      </if>
-      <if test="isConcurrent != null">
-        is_concurrent,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="beanName != null">
-        bean_name,
-      </if>
-      <if test="triggerName != null">
-        trigger_name,
-      </if>
-      <if test="jobStatus != null">
-        job_status,
-      </if>
-      <if test="springBean != null">
-        spring_bean,
-      </if>
-      <if test="jobName != null">
-        job_name,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="jobId != null">
-        #{jobId,jdbcType=INTEGER},
-      </if>
-      <if test="cronExpression != null">
-        #{cronExpression,jdbcType=VARCHAR},
-      </if>
-      <if test="methodName != null">
-        #{methodName,jdbcType=VARCHAR},
-      </if>
-      <if test="isConcurrent != null">
-        #{isConcurrent,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="beanName != null">
-        #{beanName,jdbcType=VARCHAR},
-      </if>
-      <if test="triggerName != null">
-        #{triggerName,jdbcType=VARCHAR},
-      </if>
-      <if test="jobStatus != null">
-        #{jobStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="springBean != null">
-        #{springBean,jdbcType=VARCHAR},
-      </if>
-      <if test="jobName != null">
-        #{jobName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
-    update quartz_job
-    <set>
-      <if test="cronExpression != null">
-        cron_expression = #{cronExpression,jdbcType=VARCHAR},
-      </if>
-      <if test="methodName != null">
-        method_name = #{methodName,jdbcType=VARCHAR},
-      </if>
-      <if test="isConcurrent != null">
-        is_concurrent = #{isConcurrent,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="beanName != null">
-        bean_name = #{beanName,jdbcType=VARCHAR},
-      </if>
-      <if test="triggerName != null">
-        trigger_name = #{triggerName,jdbcType=VARCHAR},
-      </if>
-      <if test="jobStatus != null">
-        job_status = #{jobStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="springBean != null">
-        spring_bean = #{springBean,jdbcType=VARCHAR},
-      </if>
-      <if test="jobName != null">
-        job_name = #{jobName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where job_id = #{jobId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
-    update quartz_job
-    set cron_expression = #{cronExpression,jdbcType=VARCHAR},
-      method_name = #{methodName,jdbcType=VARCHAR},
-      is_concurrent = #{isConcurrent,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      bean_name = #{beanName,jdbcType=VARCHAR},
-      trigger_name = #{triggerName,jdbcType=VARCHAR},
-      job_status = #{jobStatus,jdbcType=VARCHAR},
-      spring_bean = #{springBean,jdbcType=VARCHAR},
-      job_name = #{jobName,jdbcType=VARCHAR}
-    where job_id = #{jobId,jdbcType=INTEGER}
+    <resultMap id="BaseResultMap" type="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
+        <id column="job_id" jdbcType="INTEGER" property="jobId"/>
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="method_name" jdbcType="VARCHAR" property="methodName"/>
+        <result column="is_concurrent" jdbcType="VARCHAR" property="isConcurrent"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="bean_name" jdbcType="VARCHAR" property="beanName"/>
+        <result column="trigger_name" jdbcType="VARCHAR" property="triggerName"/>
+        <result column="job_status" jdbcType="VARCHAR" property="jobStatus"/>
+        <result column="spring_bean" jdbcType="VARCHAR" property="springBean"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      job_id, cron_expression, method_name, is_concurrent, description, bean_name, trigger_name,
+      job_status, spring_bean, job_name
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from quartz_job
+        where job_id = #{jobId,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from quartz_job
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from quartz_job
+        where job_id = #{jobId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
+        insert into quartz_job (job_id, cron_expression, method_name,
+            is_concurrent, description, bean_name,
+            trigger_name, job_status, spring_bean,
+            job_name)
+        values (#{jobId,jdbcType=INTEGER}, #{cronExpression,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR},
+            #{isConcurrent,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{beanName,jdbcType=VARCHAR},
+            #{triggerName,jdbcType=VARCHAR}, #{jobStatus,jdbcType=VARCHAR}, #{springBean,jdbcType=VARCHAR},
+            #{jobName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
+        insert into quartz_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">
+                job_id,
+            </if>
+            <if test="cronExpression != null">
+                cron_expression,
+            </if>
+            <if test="methodName != null">
+                method_name,
+            </if>
+            <if test="isConcurrent != null">
+                is_concurrent,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="beanName != null">
+                bean_name,
+            </if>
+            <if test="triggerName != null">
+                trigger_name,
+            </if>
+            <if test="jobStatus != null">
+                job_status,
+            </if>
+            <if test="springBean != null">
+                spring_bean,
+            </if>
+            <if test="jobName != null">
+                job_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">
+                #{jobId,jdbcType=INTEGER},
+            </if>
+            <if test="cronExpression != null">
+                #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="methodName != null">
+                #{methodName,jdbcType=VARCHAR},
+            </if>
+            <if test="isConcurrent != null">
+                #{isConcurrent,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="beanName != null">
+                #{beanName,jdbcType=VARCHAR},
+            </if>
+            <if test="triggerName != null">
+                #{triggerName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobStatus != null">
+                #{jobStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="springBean != null">
+                #{springBean,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
+        update quartz_job
+        <set>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="methodName != null">
+                method_name = #{methodName,jdbcType=VARCHAR},
+            </if>
+            <if test="isConcurrent != null">
+                is_concurrent = #{isConcurrent,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="beanName != null">
+                bean_name = #{beanName,jdbcType=VARCHAR},
+            </if>
+            <if test="triggerName != null">
+                trigger_name = #{triggerName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobStatus != null">
+                job_status = #{jobStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="springBean != null">
+                spring_bean = #{springBean,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where job_id = #{jobId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.heart.crawler.weibohotcrawler.entity.QuartzJob">
+        update quartz_job
+        set cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            method_name = #{methodName,jdbcType=VARCHAR},
+            is_concurrent = #{isConcurrent,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR},
+            bean_name = #{beanName,jdbcType=VARCHAR},
+            trigger_name = #{triggerName,jdbcType=VARCHAR},
+            job_status = #{jobStatus,jdbcType=VARCHAR},
+            spring_bean = #{springBean,jdbcType=VARCHAR},
+            job_name = #{jobName,jdbcType=VARCHAR}
+        where job_id = #{jobId,jdbcType=INTEGER}
   </update>
 </mapper>
