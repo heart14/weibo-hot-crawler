@@ -14,9 +14,7 @@
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script>
         function getWeiboHot() {
-
             $.get("/weibo/hot", function (data) {
-
                 var inner = "<thead><tr><td>序号</td><td>关键字</td><td>热度</td><td>更新时间</td></tr></thead><tbody>";
                 var baseUrl = "https://s.weibo.com";
                 for (var i = 0; i < data.length; i++) {
@@ -24,19 +22,45 @@
                     var weibohotjson = JSON.stringify(hot);
                     var weibohotObject = JSON.parse(weibohotjson);
                     if ("" != weibohotObject.channel && "0" != weibohotObject.rank) {
-                        inner = inner + "<tr><td>"
-                            + weibohotObject.rank + "</td><td><a target='_blank' href='" + baseUrl + weibohotObject.linkUrl + "'>"
+                        inner = inner + "<tr><td><span style='color: #F26D5F'>"
+                            + weibohotObject.rank + "</span></td><td><a class='weibo" + i + "' target='_blank' href='" + baseUrl + weibohotObject.linkUrl + "'>"
                             + weibohotObject.title + "</a></td><td>"
-                            + weibohotObject.hotNum + "&nbsp;|&nbsp;" + weibohotObject.channel + "</td><td>"
-                            + timeFormat(new Date(Date.parse(weibohotObject.crawlerDate))) + "</td></tr>";
+                            + weibohotObject.hotNum ;
+                        if (weibohotObject.channel=="沸") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_fei'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        }
+                        if (weibohotObject.channel=="热") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_re'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        }
+                        if (weibohotObject.channel=="新") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_xin'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        }
+                        if (weibohotObject.channel=="荐") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_jian'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        }
+                        if (weibohotObject.channel=="爆") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_bao'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        }
+                        inner = inner +  timeFormat(new Date(Date.parse(weibohotObject.crawlerDate))) + "</td></tr>";
 
                     } else {
-                        inner = inner + "<tr><td>"
-                            + weibohotObject.rank + "</td><td><a target='_blank' href='" + baseUrl + weibohotObject.linkUrl + "'>"
+                        inner = inner + "<tr><td><span style='color: #F26D5F'>"
+                            + weibohotObject.rank + "</span></td><td><a class='weibo" + i + "' target='_blank' href='" + baseUrl + weibohotObject.linkUrl + "'>"
                             + weibohotObject.title + "</a></td><td>"
                             + weibohotObject.hotNum + "</td><td>"
                             + timeFormat(new Date(Date.parse(weibohotObject.crawlerDate))) + "</td></tr>";
                     }
+                    $(".container table").on('mouseover', '.weibo' + i, function () {
+                        console.log("show "+$(this).attr('href'));
+                        $(".hotThumb").css({
+                            "display": "block"
+                        });
+                    });
+                    $(".container table").on('mouseout', '.weibo' + i, function () {
+                        $(".hotThumb").css({
+                            "display": "none"
+                        });
+                    });
                 }
                 inner = inner + "</tbody>";
                 $("#weibohottable").append(inner);
@@ -93,9 +117,7 @@
                 }
                 d.innerText = year + '年' + mon + '月' + da + '日' + ' 星期' + day + ' ' + h + ':' + m + ':' + s;
             }, 1000);
-
         }
-
 
         //格式化时间字符串
         function timeFormat(now) {
@@ -131,8 +153,37 @@
             clock += ss;
             return (clock);
         }
-
     </script>
+    <style type="text/css">
+        .hotThumb {
+            display: none;
+        }
+        .hotNumSpan_fei {
+            background-color: #F86400;
+            color: white;
+            border-radius: 5px;
+        }
+        .hotNumSpan_re {
+            background-color: #FF9460;
+            color: white;
+            border-radius: 5px;
+        }
+        .hotNumSpan_xin {
+            background-color: #FF3852;
+            color: white;
+            border-radius: 5px;
+        }
+        .hotNumSpan_jian {
+            background-color: #00B7EE;
+            color: white;
+            border-radius: 5px;
+        }
+        .hotNumSpan_bao {
+            background-color: RED;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body onload="getWeiboHot()">
 
@@ -143,6 +194,9 @@
     <table class="table table-bordered table-striped table-hover" id="weibohottable">
 
     </table>
+
+    <div class="hotThumb" >
+    </div>
 
 </div>
 
