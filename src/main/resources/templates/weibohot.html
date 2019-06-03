@@ -14,8 +14,9 @@
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     <script>
         function getWeiboHot() {
+            $("#weibohottable").html('');
             $.get("/weibo/hot", function (data) {
-                var inner = "<thead><tr><td>序号</td><td>关键字</td><td>热度</td><td>更新时间</td></tr></thead><tbody>";
+                var inner = "<thead><tr><td>序号</td><td>关键字</td><td>热度</td></tr></thead><tbody>";
                 var baseUrl = "https://s.weibo.com";
                 for (var i = 0; i < data.length; i++) {
                     var hot = data[i];
@@ -25,33 +26,33 @@
                         inner = inner + "<tr><td><span style='color: #F26D5F'>"
                             + weibohotObject.rank + "</span></td><td><a class='weibo" + i + "' target='_blank' href='" + baseUrl + weibohotObject.linkUrl + "'>"
                             + weibohotObject.title + "</a></td><td>"
-                            + weibohotObject.hotNum ;
-                        if (weibohotObject.channel=="沸") {
-                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_fei'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                            + weibohotObject.hotNum;
+                        if (weibohotObject.channel == "沸") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_fei'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td>";
                         }
-                        if (weibohotObject.channel=="热") {
-                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_re'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        if (weibohotObject.channel == "热") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_re'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td>";
                         }
-                        if (weibohotObject.channel=="新") {
-                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_xin'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        if (weibohotObject.channel == "新") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_xin'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td>";
                         }
-                        if (weibohotObject.channel=="荐") {
-                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_jian'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        if (weibohotObject.channel == "荐") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_jian'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td>";
                         }
-                        if (weibohotObject.channel=="爆") {
-                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_bao'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td><td>";
+                        if (weibohotObject.channel == "爆") {
+                            inner = inner + "&nbsp;&nbsp;<span class='hotNumSpan_bao'>&nbsp;" + weibohotObject.channel + "&nbsp;</span></td>";
                         }
-                        inner = inner +  timeFormat(new Date(Date.parse(weibohotObject.crawlerDate))) + "</td></tr>";
+                        inner = inner + "</tr>";
 
                     } else {
                         inner = inner + "<tr><td><span style='color: #F26D5F'>"
                             + weibohotObject.rank + "</span></td><td><a class='weibo" + i + "' target='_blank' href='" + baseUrl + weibohotObject.linkUrl + "'>"
                             + weibohotObject.title + "</a></td><td>"
-                            + weibohotObject.hotNum + "</td><td>"
-                            + timeFormat(new Date(Date.parse(weibohotObject.crawlerDate))) + "</td></tr>";
+                            + weibohotObject.hotNum + "</td>"
+                            + "</tr>";
                     }
                     $(".container table").on('mouseover', '.weibo' + i, function () {
-                        console.log("show "+$(this).attr('href'));
+                        console.log("show " + $(this).attr('href'));
                         $(".hotThumb").css({
                             "display": "block"
                         });
@@ -64,7 +65,8 @@
                 }
                 inner = inner + "</tbody>";
                 $("#weibohottable").append(inner);
-            })
+            });
+            $("#nowDate").text(timeFormat(new Date()));
 
             //页面上显示当前时间
             setInterval(function () {
@@ -183,6 +185,9 @@
             color: white;
             border-radius: 5px;
         }
+        h6{
+            display: inline-block;
+        }
     </style>
 </head>
 <body onload="getWeiboHot()">
@@ -190,6 +195,11 @@
 <div class="container">
     <h3>微博热搜榜</h3>
     <h6 id="Date"></h6>
+    <div style="display: inline-block;float: right;">
+        <span>更新时间</span>
+        <h6 id="nowDate"></h6>
+        <button type="button" class="btn btn-primary btn-xs" onclick="getWeiboHot()">刷新</button>
+    </div>
 
     <table class="table table-bordered table-striped table-hover" id="weibohottable">
 
