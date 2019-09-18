@@ -4,6 +4,7 @@ import com.heart.crawler.weibohotcrawler.entity.QuartzJob;
 import com.heart.crawler.weibohotcrawler.job.WeiboHotJob;
 import com.heart.crawler.weibohotcrawler.quartz.QuartzJobUtils;
 import com.heart.crawler.weibohotcrawler.service.QuartzJobService;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class QuartzController {
 
         try {
             quartzJobUtils.addJob(quartzJob);
-        } catch (Exception e) {
+        } catch (SchedulerException e) {
             e.printStackTrace();
         }
 
@@ -115,7 +116,7 @@ public class QuartzController {
 
         try {
             quartzJobUtils.removeJob(quartzJob);
-        } catch (Exception e) {
+        } catch (SchedulerException e) {
             e.printStackTrace();
         }
 

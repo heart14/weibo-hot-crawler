@@ -11,6 +11,7 @@ public class StringUtil {
 
     /**
      * 获取UUID
+     *
      * @return
      */
     public static String getUUID() {
@@ -19,6 +20,7 @@ public class StringUtil {
 
     /**
      * 日期格式化为字符串
+     *
      * @param date
      * @return
      */
@@ -32,6 +34,7 @@ public class StringUtil {
 
     /**
      * 日期格式化为字符串
+     *
      * @param date
      * @return
      */

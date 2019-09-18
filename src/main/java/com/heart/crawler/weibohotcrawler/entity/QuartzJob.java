@@ -92,7 +92,6 @@ public class QuartzJob {
      */
     private List<String> jobParamsList;
 
-    //setter&getter
     public String getJobId() {
         return jobId;
     }
