@@ -7,17 +7,19 @@ import java.util.List;
 
 @Repository
 public interface QuartzJobDao {
-    int deleteByPrimaryKey(Integer jobId);
 
-    int insert(QuartzJob record);
+    int insertQuartzJob(QuartzJob quartzJob);
 
-    int insertSelective(QuartzJob record);
+    int insertQuartzJobSelective(QuartzJob quartzJob);
 
-    QuartzJob selectByPrimaryKey(Integer jobId);
+    int deleteQuartzJobByPrimaryKey(Integer jobId);
 
-    List<QuartzJob> selectAll();
+    int updateQuartzJobByPrimaryKeySelective(QuartzJob quartzJob);
 
-    int updateByPrimaryKeySelective(QuartzJob record);
+    int updateQuartzJobByPrimaryKey(QuartzJob quartzJob);
 
-    int updateByPrimaryKey(QuartzJob record);
+    QuartzJob selectQuartzJobByPrimaryKey(Integer jobId);
+
+    List<QuartzJob> selectAllQuartzJob();
+
 }

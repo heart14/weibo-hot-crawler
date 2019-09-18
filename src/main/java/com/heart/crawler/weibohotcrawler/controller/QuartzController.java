@@ -1,17 +1,20 @@
 package com.heart.crawler.weibohotcrawler.controller;
 
 import com.heart.crawler.weibohotcrawler.entity.QuartzJob;
-import com.heart.crawler.weibohotcrawler.quartz.QuartzJobManager;
+import com.heart.crawler.weibohotcrawler.job.WeiboHotJob;
+import com.heart.crawler.weibohotcrawler.quartz.QuartzJobUtils;
 import com.heart.crawler.weibohotcrawler.service.QuartzJobService;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/quartz")
@@ -24,7 +27,7 @@ public class QuartzController {
     private QuartzJobService quartzJobService;
 
     @Autowired
-    private QuartzJobManager quartzJobManager;
+    private QuartzJobUtils quartzJobUtils;
 
     @RequestMapping("/index")
     public ModelAndView quartzManagePage() {
@@ -40,7 +43,7 @@ public class QuartzController {
     @RequestMapping("/getQuartzJob")
     @ResponseBody
     public List<QuartzJob> getQuartzJob() {
-        return quartzJobService.selectAll();
+        return quartzJobService.findAllQuartzJob();
     }
 
 
@@ -49,47 +52,74 @@ public class QuartzController {
      *
      * @param
      */
-    @RequestMapping("/addQuartzJob")
-    public void addQuartzJob(int jobId) {
-        QuartzJob quartzJob = quartzJobService.selectByPrimaryKey(jobId);
-        jobId = jobId + 1;
-        quartzJob.setJobId(String.valueOf(jobId));
-        logger.info("新增定时任务 : " + quartzJob.toString());
-        int insert = quartzJobService.insert(quartzJob);
-        try {
-            quartzJobManager.addJob(quartzJob);
-        } catch (SchedulerException e) {
-            logger.error("新增定时任务失败 : {}", e.getMessage());
-            return;
-        } catch (ClassNotFoundException e) {
-            logger.error("新增定时任务失败 : {}", e.getMessage());
-            return;
-        } catch (IllegalAccessException e) {
-            logger.error("新增定时任务失败 : {}", e.getMessage());
-            return;
-        } catch (InstantiationException e) {
-            logger.error("新增定时任务失败 : {}", e.getMessage());
-            return;
+    @RequestMapping("/add/{a}")
+    @ResponseBody
+    public String addQuartzJob(@PathVariable("a") int a) {
+        QuartzJob quartzJob = new QuartzJob();
+        quartzJob.setJobId("quartzJob0000" + a);
+        quartzJob.setJobName("quartzJob:name:" + a);
+        quartzJob.setJobGroupName("quartzJob:group:name:" + a);
+        quartzJob.setTriggerName("quartzJob:trigger:name:" + a);
+        quartzJob.setTriggerGroupName("quartzJob:trigger:group:name:" + a);
+        quartzJob.setJob(WeiboHotJob.class);
+        quartzJob.setBeanName(WeiboHotJob.class.getName());
+        quartzJob.setMethodName("execute");
+        if (a == 1) {
+            quartzJob.setExecuteTime(System.currentTimeMillis());
+        } else {
+            quartzJob.setCronExpression("*/1 * * * * ?");
         }
-        logger.info("新增定时任务 : " + (insert == 1 ? "成功" : "失败"));
+        quartzJob.setDescription("测试定时任务");
+        quartzJob.setCreateTime(new Date());
+
+        List<String> paramList = new ArrayList<>();
+        paramList.add("quartz-" + a);
+        paramList.add("test-" + a);
+        paramList.add("params-" + a);
+        quartzJob.setJobParamsList(paramList);
+
+        try {
+            quartzJobUtils.addJob(quartzJob);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "ok";
     }
 
     /**
      * 移除定时任务
-     *
-     * @param jobId
      */
-    @RequestMapping("/removeQuartzJob")
-    public void removeQuartzJob(int jobId) {
-        logger.info("移除定时任务 : jobId = " + jobId);
-        int deleteByPrimaryKey = quartzJobService.deleteByPrimaryKey(jobId);
+    @RequestMapping("/remove/{a}")
+    @ResponseBody
+    public String removeQuartzJob(@PathVariable("a") int a) {
+
+        QuartzJob quartzJob = new QuartzJob();
+        quartzJob.setJobId("quartzJob0000" + a);
+        quartzJob.setJobName("quartzJob:name:" + a);
+        quartzJob.setJobGroupName("quartzJob:group:name:" + a);
+        quartzJob.setTriggerName("quartzJob:trigger:name:" + a);
+        quartzJob.setTriggerGroupName("quartzJob:trigger:group:name:" + a);
+        quartzJob.setJob(WeiboHotJob.class);
+        quartzJob.setBeanName(WeiboHotJob.class.getName());
+        quartzJob.setMethodName("execute");
+        quartzJob.setCronExpression("*/1 * * * * ?");
+        quartzJob.setDescription("测试定时任务");
+        quartzJob.setCreateTime(new Date());
+
+        List<String> paramList = new ArrayList<>();
+        paramList.add("quartz-" + a);
+        paramList.add("test-" + a);
+        paramList.add("params-" + a);
+        quartzJob.setJobParamsList(paramList);
+
         try {
-            quartzJobManager.deleteJob(quartzJobService.selectByPrimaryKey(jobId));
-        } catch (SchedulerException e) {
-            logger.error("移除定时任务失败 : {}", e.getMessage());
-            return;
+            quartzJobUtils.removeJob(quartzJob);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        logger.info("移除定时任务 : " + (deleteByPrimaryKey == 1 ? "成功" : "失败"));
+
+        return "ok";
     }
 
     /**
@@ -99,18 +129,5 @@ public class QuartzController {
      */
     @RequestMapping("/startQuartzJob")
     public void startQuartzJob(int jobId) {
-        logger.info("开始定时任务 : jobId = " + jobId);
-        QuartzJob quartzJob = quartzJobService.selectByPrimaryKey(jobId);
-        if (quartzJob == null) {
-            logger.info("开始定时任务 : 失败！任务不存在。");
-            return;
-        }
-        try {
-            quartzJobManager.runAJobNow(quartzJob);
-        } catch (SchedulerException e) {
-            logger.error("开始定时任务失败 : {}", e.getMessage());
-            return;
-        }
-        logger.info("开始定时任务 : 成功！");
     }
 }

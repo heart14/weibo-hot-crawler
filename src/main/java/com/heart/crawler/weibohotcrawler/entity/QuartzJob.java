@@ -1,50 +1,96 @@
 package com.heart.crawler.weibohotcrawler.entity;
 
+import org.quartz.Job;
+
+import java.util.Date;
+import java.util.List;
+
 public class QuartzJob {
 
-    public static final Integer STATUS_RUNNING = 1;
-    public static final Integer STATUS_NOT_RUNNING = 0;
-    public static final Integer CONCURRENT_IS = 1;
-    public static final Integer CONCURRENT_NOT = 0;
-
+    /**
+     * job id
+     */
     private String jobId;
+
     /**
-     * cron 表达式
+     * 任务名（唯一）
      */
-    private String cronExpression;
+    private String jobName;
+
     /**
-     * 任务调用的方法名
+     * 任务组名（可重复）
      */
-    private String methodName;
+    private String jobGroupName;
+
     /**
-     * 任务是否有状态
-     */
-    private Integer isConcurrent;
-    /**
-     * 描述
-     */
-    private String description;
-    /**
-     * 任务执行时调用哪个类的方法 包名+类名，完全限定名
-     */
-    private String beanName;
-    /**
-     * 触发器名称
+     * 触发器名（唯一）
      */
     private String triggerName;
 
     /**
-     * 任务状态
+     * 触发器组名（可重复）
      */
-    private Integer jobStatus;
+    private String triggerGroupName;
+
     /**
-     * ???
+     * 任务参数
      */
-    private String springBean;
+    private String jobParams;
+
     /**
-     * 任务名
+     * 任务执行时间
      */
-    private String jobName;
+    private long executeTime;
+
+    /**
+     * 任务执行cron表达式
+     */
+    private String cronExpression;
+
+    /**
+     * 任务并发状态
+     */
+    private int concurrent;
+
+    /**
+     * 任务bean name
+     */
+    private String beanName;
+
+    /**
+     * 任务method name
+     */
+    private String methodName;
+
+    /**
+     * 任务描述
+     */
+    private String description;
+
+    /**
+     * 任务执行状态
+     */
+    private int jobStatus;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
+     * 任务类
+     */
+    private Class<? extends Job> job;
+
+    /**
+     * 任务参数
+     */
+    private List<String> jobParamsList;
 
     //setter&getter
     public String getJobId() {
@@ -53,78 +99,6 @@ public class QuartzJob {
 
     public QuartzJob setJobId(String jobId) {
         this.jobId = jobId;
-        return this;
-    }
-
-    public String getCronExpression() {
-        return cronExpression;
-    }
-
-    public QuartzJob setCronExpression(String cronExpression) {
-        this.cronExpression = cronExpression;
-        return this;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public QuartzJob setMethodName(String methodName) {
-        this.methodName = methodName;
-        return this;
-    }
-
-    public Integer getIsConcurrent() {
-        return isConcurrent;
-    }
-
-    public QuartzJob setIsConcurrent(Integer isConcurrent) {
-        this.isConcurrent = isConcurrent;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public QuartzJob setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getBeanName() {
-        return beanName;
-    }
-
-    public QuartzJob setBeanName(String beanName) {
-        this.beanName = beanName;
-        return this;
-    }
-
-    public String getTriggerName() {
-        return triggerName;
-    }
-
-    public QuartzJob setTriggerName(String triggerName) {
-        this.triggerName = triggerName;
-        return this;
-    }
-
-    public Integer getJobStatus() {
-        return jobStatus;
-    }
-
-    public QuartzJob setJobStatus(Integer jobStatus) {
-        this.jobStatus = jobStatus;
-        return this;
-    }
-
-    public String getSpringBean() {
-        return springBean;
-    }
-
-    public QuartzJob setSpringBean(String springBean) {
-        this.springBean = springBean;
         return this;
     }
 
@@ -137,19 +111,159 @@ public class QuartzJob {
         return this;
     }
 
+    public String getJobGroupName() {
+        return jobGroupName;
+    }
+
+    public QuartzJob setJobGroupName(String jobGroupName) {
+        this.jobGroupName = jobGroupName;
+        return this;
+    }
+
+    public String getTriggerName() {
+        return triggerName;
+    }
+
+    public QuartzJob setTriggerName(String triggerName) {
+        this.triggerName = triggerName;
+        return this;
+    }
+
+    public String getTriggerGroupName() {
+        return triggerGroupName;
+    }
+
+    public QuartzJob setTriggerGroupName(String triggerGroupName) {
+        this.triggerGroupName = triggerGroupName;
+        return this;
+    }
+
+    public List<String> getJobParamsList() {
+        return jobParamsList;
+    }
+
+    public QuartzJob setJobParamsList(List<String> jobParamsList) {
+        this.jobParamsList = jobParamsList;
+        return this;
+    }
+
+    public String getJobParams() {
+        return jobParams;
+    }
+
+    public QuartzJob setJobParams(String jobParams) {
+        this.jobParams = jobParams;
+        return this;
+    }
+
+    public long getExecuteTime() {
+        return executeTime;
+    }
+
+    public QuartzJob setExecuteTime(long executeTime) {
+        this.executeTime = executeTime;
+        return this;
+    }
+
+    public String getCronExpression() {
+        return cronExpression;
+    }
+
+    public QuartzJob setCronExpression(String cronExpression) {
+        this.cronExpression = cronExpression;
+        return this;
+    }
+
+    public int getConcurrent() {
+        return concurrent;
+    }
+
+    public QuartzJob setConcurrent(int concurrent) {
+        this.concurrent = concurrent;
+        return this;
+    }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public QuartzJob setBeanName(String beanName) {
+        this.beanName = beanName;
+        return this;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public QuartzJob setMethodName(String methodName) {
+        this.methodName = methodName;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public QuartzJob setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public int getJobStatus() {
+        return jobStatus;
+    }
+
+    public QuartzJob setJobStatus(int jobStatus) {
+        this.jobStatus = jobStatus;
+        return this;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public QuartzJob setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public QuartzJob setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+        return this;
+    }
+
+    public Class<? extends Job> getJob() {
+        return job;
+    }
+
+    public QuartzJob setJob(Class<? extends Job> job) {
+        this.job = job;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "QuartzJob{" +
                 "jobId='" + jobId + '\'' +
-                ", cronExpression='" + cronExpression + '\'' +
-                ", methodName='" + methodName + '\'' +
-                ", isConcurrent=" + isConcurrent +
-                ", description='" + description + '\'' +
-                ", beanName='" + beanName + '\'' +
-                ", triggerName='" + triggerName + '\'' +
-                ", jobStatus=" + jobStatus +
-                ", springBean='" + springBean + '\'' +
                 ", jobName='" + jobName + '\'' +
+                ", jobGroupName='" + jobGroupName + '\'' +
+                ", triggerName='" + triggerName + '\'' +
+                ", triggerGroupName='" + triggerGroupName + '\'' +
+                ", jobParams=" + jobParams +
+                ", executeTime=" + executeTime +
+                ", cronExpression='" + cronExpression + '\'' +
+                ", concurrent=" + concurrent +
+                ", beanName='" + beanName + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", description='" + description + '\'' +
+                ", jobStatus=" + jobStatus +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

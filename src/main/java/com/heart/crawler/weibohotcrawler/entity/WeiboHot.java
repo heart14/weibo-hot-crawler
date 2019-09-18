@@ -4,25 +4,39 @@ import java.util.Date;
 
 public class WeiboHot {
 
-    //id
+    /**
+     * id
+     */
     private Integer id;
 
-    //热搜排行
+    /**
+     * 热搜排行
+     */
     private String rank;
 
-    //搜索指数
+    /**
+     * 搜索指数
+     */
     private String hotNum;
 
-    //热搜关键词
+    /**
+     * 热搜关键词
+     */
     private String title;
 
-    //热搜详情页地址
+    /**
+     * 热搜详情页地址
+     */
     private String linkUrl;
 
-    //热搜分类 新 沸 热 爆 荐 等
+    /**
+     * 热搜分类 新 沸 热 爆 荐 等
+     */
     private String channel;
 
-    //抓取时间
+    /**
+     * 抓取时间
+     */
     private Date crawlerDate;
 
     // get set

@@ -15,37 +15,37 @@ public class QuartzJobServiceImpl implements QuartzJobService {
     private QuartzJobDao quartzJobDao;
 
     @Override
-    public int deleteByPrimaryKey(Integer jobId) {
-        return quartzJobDao.deleteByPrimaryKey(jobId);
+    public int saveQuartzJob(QuartzJob quartzJob) {
+        return quartzJobDao.insertQuartzJob(quartzJob);
     }
 
     @Override
-    public int insert(QuartzJob record) {
-        return quartzJobDao.insert(record);
+    public int saveQuartzJobSelective(QuartzJob quartzJob) {
+        return quartzJobDao.insertQuartzJobSelective(quartzJob);
     }
 
     @Override
-    public int insertSelective(QuartzJob record) {
-        return quartzJobDao.insertSelective(record);
+    public int removeQuartzJobByPrimaryKey(Integer jobId) {
+        return quartzJobDao.deleteQuartzJobByPrimaryKey(jobId);
     }
 
     @Override
-    public QuartzJob selectByPrimaryKey(Integer jobId) {
-        return quartzJobDao.selectByPrimaryKey(jobId);
+    public int editQuartzJobByPrimaryKeySelective(QuartzJob quartzJob) {
+        return quartzJobDao.updateQuartzJobByPrimaryKeySelective(quartzJob);
     }
 
     @Override
-    public List<QuartzJob> selectAll() {
-        return quartzJobDao.selectAll();
+    public int editQuartzJobByPrimaryKey(QuartzJob quartzJob) {
+        return quartzJobDao.updateQuartzJobByPrimaryKey(quartzJob);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(QuartzJob record) {
-        return quartzJobDao.updateByPrimaryKeySelective(record);
+    public QuartzJob findQuartzJobByPrimaryKey(Integer jobId) {
+        return quartzJobDao.selectQuartzJobByPrimaryKey(jobId);
     }
 
     @Override
-    public int updateByPrimaryKey(QuartzJob record) {
-        return quartzJobDao.updateByPrimaryKey(record);
+    public List<QuartzJob> findAllQuartzJob() {
+        return quartzJobDao.selectAllQuartzJob();
     }
 }

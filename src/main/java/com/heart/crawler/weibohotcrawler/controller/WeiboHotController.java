@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,10 +40,4 @@ public class WeiboHotController {
         return weiboHots;
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public void testtt(String param1, String param2, String param3) {
-        logger.info("param1 : {}", param1);
-        logger.info("param2 : {}", param2);
-        logger.info("param3 : {}", param3);
-    }
 }

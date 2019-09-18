@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface QuartzJobService {
 
-    int deleteByPrimaryKey(Integer jobId);
+    int saveQuartzJob(QuartzJob quartzJob);
 
-    int insert(QuartzJob record);
+    int saveQuartzJobSelective(QuartzJob quartzJob);
 
-    int insertSelective(QuartzJob record);
+    int removeQuartzJobByPrimaryKey(Integer jobId);
 
-    QuartzJob selectByPrimaryKey(Integer jobId);
+    int editQuartzJobByPrimaryKeySelective(QuartzJob quartzJob);
 
-    List<QuartzJob> selectAll();
+    int editQuartzJobByPrimaryKey(QuartzJob quartzJob);
 
-    int updateByPrimaryKeySelective(QuartzJob record);
+    QuartzJob findQuartzJobByPrimaryKey(Integer jobId);
 
-    int updateByPrimaryKey(QuartzJob record);
+    List<QuartzJob> findAllQuartzJob();
 }
